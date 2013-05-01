@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+	<script src="jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="underscore.js"></script>
+	<script type="text/javascript" src="backbone-min.js"></script>
+	<script type="text/javascript">
+    Person = Backbone.Model.extend({
+      initialize : function(){
+        this.on("invalid", function(model, error){
+          console.log(error);
+        });
+      },
+      validate : function(attrs){
+        if(attrs.name === undefined){
+          return "name not found"
+        }
+      }
+    });
+    person = new Person({name : "Samuel"});
+    console.log(person.unset("name", {validate : true}));
+    console.log(person.set("name", "haisum", {validate : true}));
+	</script>
+</body>
+</html>

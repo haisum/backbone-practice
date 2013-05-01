@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div id="todo">
+  </div>
+  <script type="text/template" id="item-template">
+    <div>
+      <input id="todo_complete" type="checkbox" <%= completed ? 'checked="checked"' : '' %>/>
+      <%= title %>
+    </div>
+  </script>
+	<script src="jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="underscore.js"></script>
+	<script type="text/javascript" src="backbone-min.js"></script>
+	<script type="text/javascript">
+    var Todo = Backbone.Model.extend({
+      defaults: {
+        title: '',
+        completed: false
+      }
+    });
+
+    var TodosCollection = Backbone.Collection.extend({
+      model: Todo,
+    });
+
+    var a = new Todo({ title: 'Go to Jamaica.'}),
+        b = new Todo({ title: 'Go to China.'}),
+        c = new Todo({ title: 'Go to Disneyland.'});
+
+    var todos = new TodosCollection([a,b]);
+    console.log("Collection size: " + todos.length);
+    // Logs: Collection size: 2
+
+    todos.add(c);
+    console.log("Collection size: " + todos.length);
+    // Logs: Collection size: 3
+
+    todos.remove([a,b]);
+    console.log("Collection size: " + todos.length);
+    // Logs: Collection size: 1
+
+    todos.remove(c);
+    console.log("Collection size: " + todos.length);
+    // Logs: Collection size: 0
+
+    var items = new Backbone.Collection();
+    items.add([{ id : 1, name: "Dog" , age: 3}, { id : 2, name: "cat" , age: 2}]);
+    items.add([{ id : 1, name: "Bear" }], {merge: true });
+    items.add([{ id : 2, name: "lion" }]); // merge: false
+    items.remove(2);
+    items.set([{ id : 1, name: "Dog" , age: 3},{ id : 2, name: "Bitch" , age: 2}]);
+    console.log(JSON.stringify(items.toJSON()));
+    items.reset([{ id : 1, name: "Dog" , age: 4},{ id : 2, name: "Bitch" , age: 2}]);
+    console.log(JSON.stringify(items.toJSON()));
+    // [{"id":1,"name":"Bear","age":3},{"id":2,"name":"cat","age":2}]
+	</script>
+</body>
+</html>

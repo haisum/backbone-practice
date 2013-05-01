@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+	<script src="jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="underscore.js"></script>
+	<script type="text/javascript" src="backbone-min.js"></script>
+	<script type="text/javascript">
+  		var Todo = Backbone.Model.extend({
+  			initialize : function(){
+  				console.log("creating object");
+  				this.on("change:title", function(){
+  					console.log("title value changed");
+  				});
+  			},
+  			defaults : {
+  				title : "default title",
+  				completed : false
+  			}
+  		});
+  		var todo1 = new Todo();
+  		console.log(todo1);
+
+  		var todo2 = new Todo({
+  			title : "hello",
+  			completed : true
+  		});
+  		console.log(todo2);
+  		console.log("todo2 get attribute: " + todo2.get("title"));
+  		console.log("todo 1 attributes:");
+  		console.log(todo1.toJSON());
+  		todo1.set("title", "single attribute set");
+  		console.log(todo1.get("title"));
+
+  		todo1.set({title : "multi attribute set", completed: false});
+  		console.log(todo1.toJSON());
+
+	</script>
+</body>
+</html>

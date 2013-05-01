@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div id="todo">
+  </div>
+  <script type="text/template" id="item-template">
+    <div>
+      <input id="todo_complete" type="checkbox" <%= completed ? 'checked="checked"' : '' %>/>
+      <%= title %>
+    </div>
+  </script>
+	<script src="jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="underscore.js"></script>
+	<script type="text/javascript" src="backbone-min.js"></script>
+	<script type="text/javascript">
+    var TodoView = Backbone.View.extend({
+      //tagName : "li",
+      initialize: function() {
+        this.model.bind('change', _.bind(this.render, this));
+      },
+      todoTpl : _.template($("#item-template").html()),
+      events : {
+        "dblclick label" : "edit",
+        "keypress .edit" : "updateOnError",
+        "blue .edit" : "close"
+      },
+      el : "#todo",
+      render : function(){
+        this.$el.html(this.todoTpl(this.model.toJSON()));
+        this.input = this.$(".edit");
+        return this;
+      },
+      edit: function() {
+        // executed when todo label is double clicked
+      },
+
+      close: function() {
+        // executed when todo loses focus
+      },
+
+      updateOnEnter: function( e ) {
+        // executed on each keypress when in todo edit mode,
+        // but we'll wait for enter to get in action
+      }
+    });
+    
+    var Todo = Backbone.Model.extend({
+      initialize : function(){
+
+      },
+      defaults : {
+        title : "default title",
+        completed : false
+      }
+    });
+    var todo1 = new Todo();
+    var todoView = new TodoView({model : todo1});
+    todoView.render();
+	</script>
+</body>
+</html>
